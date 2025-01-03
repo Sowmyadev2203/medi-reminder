@@ -18,10 +18,10 @@ const Login = () => {
             setPswd("")
             try{
               let loginSuccess = await signInWithEmailAndPassword(loginWithFb,email,pswd)
+              // route("/")
 
               // if(loginSuccess){
               //   alert("login suc")
-              //  route("/")
               // }else{
               //   alert("user not found")
               // }
