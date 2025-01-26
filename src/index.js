@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StyledEngineProvider } from '@mui/material/styles';
 import Popup from './components/popup';
-
+import TodoApp from './components/medication/result';
 
 
 
@@ -14,7 +14,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-    {/* <Popup/> */}
+    <Popup/>
+    {/* <TodoApp/> */}
    
   </React.StrictMode>
 );

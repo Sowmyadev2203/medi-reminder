@@ -11,6 +11,8 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import NavigationBar from './components/navbar/navbar';
 import Medication from './components/medication';
 import Profile from './components/profile';
+import ResultPage from "./components/medication/result";
+import ContactPage from './components/contact/contact';
 
 
  function App() {
@@ -38,10 +40,12 @@ import Profile from './components/profile';
     {/* <Route path ="/Login" element={userLoggedIn ? <Navigate to="/"/>:<Login/>}/> */}
     {/* <Route path ="/login" element={<Login/>}/> */}
     <Route path="/" element={<Home/>} />
-    <Route path="/about" element={<h2>About Page</h2>} />
+    <Route path="/history" element={<h2><ResultPage/></h2>} />
     <Route path="/medication" element={<Medication/>} />
-    <Route path="/contact" element={<h2>Contact Page</h2>} />
+    <Route path="/contact" element={<h2><ContactPage/></h2>} />
     <Route path="/profile" element={<Profile/>} />
+    <Route path="/result" element={<ResultPage />}/>
+    <Route path="/add-medication" element={<ResultPage />}/>
 
 
 

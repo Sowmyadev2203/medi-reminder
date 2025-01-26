@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useNavigate } from "react-router-dom";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   Box,
   Input,
@@ -16,44 +16,54 @@ import {
   Grid,
   Paper,
   Typography,
-  Grid2,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Popup from "../popup/index";
 
-const ariaLabel = { "aria-label": "medication" };
-
-function Medication() {
-  const [value, setValue] = useState(dayjs());
+const Medication = () => {
   const [medications, setMedications] = useState([
     {
       doseStrength: "",
       type: "",
+      medicineName: "",
+      medicationTime: dayjs(),
     },
   ]);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [currentMedication, setCurrentMedication] = useState(null);
+  const navigate = useNavigate();
 
-  // Handler for Type Change
   const handleTypeChange = (index, event) => {
     const newMedications = [...medications];
     newMedications[index].type = event.target.value;
     setMedications(newMedications);
   };
 
-  // Handler for Dose Strength Change
+  const handleMedicineNameChange = (index, event) => {
+    const newMedications = [...medications];
+    newMedications[index].medicineName = event.target.value;
+    setMedications(newMedications);
+  };
+
   const handleDoseStrengthChange = (index, event) => {
     const newMedications = [...medications];
     newMedications[index].doseStrength = event.target.value;
     setMedications(newMedications);
   };
 
-  // Add New Medication Field
   const addMedication = () => {
-    setMedications([...medications, { doseStrength: "", type: "" }]);
+    setMedications([
+      ...medications,
+      { doseStrength: "", type: "", medicineName: "", medicationTime: dayjs() },
+    ]);
   };
 
-  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("Form Submitted: " + JSON.stringify(medications, null, 2));
+    const existingMedications = JSON.parse(localStorage.getItem("medications")) || [];
+    const updatedMedications = [...existingMedications, ...medications];
+    localStorage.setItem("medications", JSON.stringify(updatedMedications));
+    navigate("/result", { state: { medications: updatedMedications } });
   };
 
   return (
@@ -61,126 +71,105 @@ function Medication() {
       <Typography variant="h4" align="center" gutterBottom>
         Add Medication
       </Typography>
-      <Grid2 container justifyContent="center">
-        <Grid2 item xs={12} sm={8} md={6}>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} sm={8} md={6}>
           <Paper elevation={3} sx={{ padding: 3 }}>
             <form onSubmit={handleSubmit}>
-              <div>
-                {/* DateTime Picker */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    components={["DateTimePicker", "DateTimePicker"]}
-                  >
-                    <DateTimePicker
-                      label="Date & Time"
-                      value={value}
-                      onChange={(newValue) => setValue(newValue)}
-                      fullWidth
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </div>
-
               <div>
                 <Typography variant="h6" gutterBottom>
                   Medication Details
                 </Typography>
                 <Box
-                  component="form"
+                  component="div"
                   sx={{ "& > :not(style)": { m: 2 } }}
                   noValidate
                   autoComplete="off"
                 >
-                  {/* Render Multiple Medication Fields */}
-                  {medications.map((medication, index) => (
-                    <div key={index}>
-                      <InputLabel htmlFor={`medicine-name-${index}`} fullWidth>
-                        Medicine Name
-                      </InputLabel>
-                      <Input
-                        id={`medicine-name-${index}`}
-                        placeholder="Enter a Medicine name"
-                        inputProps={ariaLabel}
-                        fullWidth
-                      />
-
-                      <InputLabel htmlFor={`disease-name-${index}`} fullWidth>
-                        Disease Name
-                      </InputLabel>
-                      <Input
-                        id={`disease-name-${index}`}
-                        placeholder="Enter a Disease name"
-                        inputProps={ariaLabel}
-                        fullWidth
-                      />
-
-                      {/* Dose Strength Input */}
-                      <InputLabel htmlFor={`dose-strength-${index}`} fullWidth>
-                        Dose Strength
-                      </InputLabel>
-                      <Input
-                        id={`dose-strength-${index}`}
-                        placeholder="Enter Dose strength"
-                        value={medication.doseStrength}
-                        onChange={(e) => handleDoseStrengthChange(index, e)}
-                        inputProps={ariaLabel}
-                        fullWidth
-                      />
-
-                      {/* Type Selection */}
-                      <FormControl
-                        variant="standard"
-                        sx={{ m: 2, minWidth: 120 }}
-                        fullWidth
-                      >
-                        <InputLabel id={`select-type-${index}`}>
-                          Type
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    {medications.map((medication, index) => (
+                      <div key={index}>
+                        <InputLabel htmlFor={`medicine-name-${index}`}>
+                          Medicine Name
                         </InputLabel>
-                        <Select
-                          labelId={`select-type-${index}`}
-                          id={`select-type-${index}`}
-                          value={medication.type}
-                          onChange={(e) => handleTypeChange(index, e)}
-                          label="Type"
+                        <Input
+                          id={`medicine-name-${index}`}
+                          placeholder="Enter a Medicine name"
+                          value={medication.medicineName}
+                          onChange={(e) => handleMedicineNameChange(index, e)}
+                          sx={{ width: "100%" }}
+                        />
+                        <InputLabel htmlFor={`dose-strength-${index}`}>
+                          Dose Strength
+                        </InputLabel>
+                        <Input
+                          id={`dose-strength-${index}`}
+                          placeholder="Enter Dose strength"
+                          value={medication.doseStrength}
+                          onChange={(e) => handleDoseStrengthChange(index, e)}
+                          sx={{ width: "100%" }}
+                        />
+                        <FormControl
+                          variant="standard"
+                          sx={{ m: 2, minWidth: 120, width: "100%" }}
                         >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          <MenuItem value={1}>Capsule</MenuItem>
-                          <MenuItem value={2}>Insulin</MenuItem>
-                          <MenuItem value={3}>Syrup</MenuItem>
-                          <MenuItem value={4}>Injection</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  ))}
+                          <InputLabel id={`select-type-${index}`}>Type</InputLabel>
+                          <Select
+                            labelId={`select-type-${index}`}
+                            id={`select-type-${index}`}
+                            value={medication.type}
+                            onChange={(e) => handleTypeChange(index, e)}
+                            label="Type"
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="Capsule">Capsule</MenuItem>
+                            <MenuItem value="Insulin">Insulin</MenuItem>
+                            <MenuItem value="Syrup">Syrup</MenuItem>
+                            <MenuItem value="Injection">Injection</MenuItem>
+                          </Select>
+                        </FormControl>
 
-                  {/* Add New Medication Button */}
-                  <Grid2 container justifyContent="center">
+                        <DateTimePicker
+                          label="Medication Time"
+                          value={medication.medicationTime}
+                          onChange={(newValue) => {
+                            const newMedications = [...medications];
+                            newMedications[index].medicationTime = newValue;
+                            setMedications(newMedications);
+                          }}
+                          sx={{ width: "100%" }}
+                        />
+                      </div>
+                    ))}
+                  </LocalizationProvider>
+
+                  <Grid container justifyContent="center">
                     <IconButton color="dark" onClick={addMedication}>
                       <AddCircleIcon />
                     </IconButton>
-                  </Grid2>
+                  </Grid>
 
-                  {/* Submit Button */}
-                  <Grid2 container justifyContent="center" sx={{ mt: 2 }}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      onSubmit={handleSubmit}
-                    >
+                  <Grid container justifyContent="center" sx={{ mt: 2 }}>
+                    <Button type="submit" variant="contained" style={{ backgroundColor: "black" }}>
                       Submit
                     </Button>
-                  </Grid2>
+                  </Grid>
                 </Box>
               </div>
             </form>
           </Paper>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
+
+      <Popup
+        show={popupVisible}
+        onHide={() => setPopupVisible(false)}
+        medicationName={currentMedication?.medicineName || ""}
+        medicationTime={currentMedication?.medicationTime?.format("DD MMM YYYY, hh:mm A") || ""}
+      />
     </>
   );
-}
+};
 
 export default Medication;
