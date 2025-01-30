@@ -12,7 +12,7 @@ const Signout = () => {
     try {
       await signOut(auth);
       alert('You have been logged out.');
-      navigate('/login', { replace: true });  // ✅ Ensures navigation happens after sign-out
+      navigate('/login', { replace: true });  
     } catch (error) {
       console.error('Sign-out error:', error.message);
     }
