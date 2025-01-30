@@ -1,69 +1,61 @@
-import React,{useState} from 'react'
-import {app} from "../fbConfig";
-import { getAuth,signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../fbConfig';
+import { Container, TextField, Button, Typography } from '@mui/material';
 
 const Login = () => {
-    let loginWithFb = getAuth(app) 
-    let route = useNavigate()
-     const[email,setEmail] = useState("")
-         const [pswd,setPswd] = useState("")
-         const handlesubmit= async (e)=>{
-            e.preventDefault();
-            setEmail("")
-            setPswd("")
-            try{
-              let loginSuccess = await signInWithEmailAndPassword(loginWithFb,email,pswd)
-              // route("/")
+  const auth = getAuth(app);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-              // if(loginSuccess){
-              //   alert("login suc")
-              // }else{
-              //   alert("user not found")
-              // }
-             
-            }catch(err){
-              console.log(err);
-              alert(err)
-              
-            }
-            // console.log(email,pswd);
-        }
+  const handleSignupRedirect = () => {
+    navigate('/signup');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert('Login successful!');
+      navigate('/');
+    } catch (error) {
+      console.error("Login Error:", error.message); 
+      alert(error.message); 
+    }
+  };
+  
+
   return (
-    <div>
-      <h1>Let's Sign You in!</h1>
-      <form onSubmit={handlesubmit}> 
-      {/* <input type='email' placeholder='enter your email' onChange={(e)=>{setEmail(e.target.value)}}  value={email}/> */}
-      {/* <input type='password' placeholder='enter your password' onChange={(e)=>{setPswd(e.target.value)}}  value={pswd}/> */}
-      <TextField
-          id="outlined-input"
-          label="Email"
-          type="Email"
-          // autoComplete="current-password"
-          onChange={(e)=>{setEmail(e.target.value)}}  value={email}/> <br></br>
-          <br></br>
-      <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          onChange={(e)=>{setPswd(e.target.value)}}  value={pswd}/>
+    <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center', backgroundColor:"black",color:"whitesmoke",padding:"60px",borderRadius:"30px" }}>
+      <Typography variant="h4" gutterBottom>Login</Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField fullWidth label="Email" margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} required  
+        InputProps={{ style: { color: "white" } }}  
+          InputLabelProps={{ style: { color: "white" } }} 
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderColor: 'white' }, 
+              '&:hover fieldset': { borderColor: 'white' }, 
+              '&.Mui-focused fieldset': { borderColor: 'white' } 
+            }
+          }}/>
+        <TextField fullWidth label="Password" type="password" margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} required 
+          InputProps={{ style: { color: "white" } }}  
+          InputLabelProps={{ style: { color: "white" } }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderColor: 'white' }, 
+              '&:hover fieldset': { borderColor: 'white' }, 
+              '&.Mui-focused fieldset': { borderColor: 'white' } 
+            }
+          }}/>
+        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>Login</Button>
+        <Button fullWidth variant="contained" color="secondary" sx={{ mt: 2 }} onClick={handleSignupRedirect}>Sign Up</Button>
+      </form>
+    </Container>
+  );
+};
 
-
-        {/* <button>login</button> */}
-        <Stack spacing={2} direction="row">
-     
-      <Button variant="contained">Login</Button>
-      
-    </Stack>
-
-        </form>
-    </div>
-  )
-}
-
-export default Login
+export default Login;

@@ -68,10 +68,10 @@ const Medication = () => {
 
   return (
     <>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant="h4" align="center" gutterBottom style={{fontFamily:"cursive"}} >
         Add Medication
       </Typography>
-      <Grid container justifyContent="center">
+      <Grid container justifyContent="center" >
         <Grid item xs={12} sm={8} md={6}>
           <Paper elevation={3} sx={{ padding: 3 }}>
             <form onSubmit={handleSubmit}>

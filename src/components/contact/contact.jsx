@@ -35,6 +35,7 @@ function ContactPage() {
   };
 
   return (
+    <div style={{fontSize:"30px",fontFamily:"cursive",textAlign:"center",marginTop:"30px"}}>Any Issues ? try to contact us!!!
     <Box
       sx={{
         padding: 4,
@@ -44,7 +45,7 @@ function ContactPage() {
         minHeight: "100vh",
         
       }}
-    >
+    >  
       <Card sx={{ maxWidth: 600, width: "100%", borderRadius: 2, boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h4" align="center" gutterBottom>
@@ -139,6 +140,7 @@ function ContactPage() {
         </CardContent>
       </Card>
     </Box>
+    </div>
   );
 }
 

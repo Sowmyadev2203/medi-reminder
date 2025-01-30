@@ -7,10 +7,10 @@ import SyrupLogo from "../assests/syrup.png";
 import InjectionLogo from "../assests/injection.png";
 import InsulinLogo from "../assests/insuline.png";
 
+
+
 function Popup(props) {
-  const handleButton = () => {
-    window.location.href = "../medication/index.jsx";
-  };
+  
 
   const getMedicationLogo = (type) => {
     switch (type) {
@@ -33,6 +33,7 @@ function Popup(props) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      style={{fontFamily:"cursive"}}
     >
       <Modal.Header closeButton style={{ color: "black" }}>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -47,16 +48,15 @@ function Popup(props) {
             style={{ width: 100, height: 100 }} 
           />
         </div>
-        <div className="div2">
+        <div className="div2" style={{fontFamily:"cursive"}}>
           <h4 style={{color:"red"}}>Medication Alert!!!</h4>
           <p>TIME TO TAKE A MEDICATION</p>
           <h5>{props.medicationName}</h5> 
           <p>Scheduled Time: {props.medicationTime}</p> 
-          <Button onClick={handleButton}>Go to Medication</Button>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>OK</Button>
+        <Button onClick={props.onHide} variant="outlined" style={{color:"black"}}>OK</Button>
       </Modal.Footer>
     </Modal>
   );

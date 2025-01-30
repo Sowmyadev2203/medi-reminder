@@ -1,6 +1,5 @@
-// Import the functions you need from the SDKs you need
+// fbConfig.js
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBAz7_zGksJeD7CH8gMIf8RQwMH-tGKKr8",
@@ -12,5 +11,6 @@ const firebaseConfig = {
   measurementId: "G-HXGH6J29D0"
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export { app };

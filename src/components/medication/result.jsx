@@ -115,15 +115,15 @@ function ResultPage() {
 
   if (!medicationList.length) {
     return (
-      <Typography variant="h6" align="center">
+      <Typography variant="h6" align="center" >
         No medications data found.
       </Typography>
     );
   }
 
   return (
-    <Box sx={{ padding: 3 }} className="result-container">
-      <Typography variant="h4" align="center" gutterBottom>
+    <Box sx={{ padding: 3 }} className="result-container" >
+      <Typography variant="h4" align="center" gutterBottom style={{fontFamily:"cursive"}}>
         Submitted Medication Details
       </Typography>
 
@@ -141,6 +141,7 @@ function ResultPage() {
             alignItems: "center",
             justifyContent: "space-between",
             color: "black",
+            fontFamily:"cursive"
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -149,17 +150,17 @@ function ResultPage() {
               alt={medication.type}
               style={{ width: 40, height: 40, marginRight: 10 }}
             />
-            <Typography variant="h6">Medicine {index + 1}</Typography>
+            <Typography variant="h6" style={{fontFamily:"cursive"}}>Medicine {index + 1}</Typography>
           </Box>
 
           {editIndex === index ? (
-            <Box>
+            <Box >
               <FormControl
                 variant="outlined"
                 fullWidth
-                sx={{ marginBottom: 2 }}
+                sx={{ marginBottom: 2}}
               >
-                <InputLabel id={`select-type-${index}`}>Type</InputLabel>
+                <InputLabel id={`select-type-${index}`} >Type</InputLabel>
                 <Select
                   labelId={`select-type-${index}`}
                   id={`select-type-edit-${index}`}
