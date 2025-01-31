@@ -8,11 +8,11 @@ const Signout = () => {
   const auth = getAuth(app);
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e) => {
+    e.preventdefault()
     try {
       await signOut(auth);
-      alert('You have been logged out.');
-      navigate('/login', { replace: true });  
+      navigate('/', { replace: true });  
     } catch (error) {
       console.error('Sign-out error:', error.message);
     }

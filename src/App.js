@@ -28,19 +28,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {/* Show Navigation Bar only when user is logged in */}
       {user && <NavigationBar />}
       
       <Routes>
-        <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-        <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/login" />} />
-        <Route path="/signout" element={user ? <Signout /> : <Navigate to="/login" />} />
+        <Route path="/home" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/" element={!user ? <Login /> : <Navigate to="/home" />} />
+        <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
+        <Route path="/signout" element={user ? <Signout /> : <Navigate to="/" />} />
         <Route path="/medication" element={<Medication/>} />
         <Route path="/contact" element={<h2><ContactPage/></h2>} />
         <Route path="/profile" element={<Profile/>} />
-        <Route path="/result" element={<ResultPage />}/>
-        <Route path="/add-medication" element={<ResultPage />}/>
+        <Route path="/history" element={<ResultPage />}/>
+        <Route path="/medication" element={<ResultPage />}/>
       </Routes>
     </BrowserRouter>
   );

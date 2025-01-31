@@ -30,12 +30,13 @@ function Popup(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
       style={{fontFamily:"cursive"}}
+     
     >
-      <Modal.Header closeButton style={{ color: "black" }}>
+      <Modal.Header closeButton style={{ color: "black" }} >
         <Modal.Title id="contained-modal-title-vcenter">
           Reminder!!!
         </Modal.Title>

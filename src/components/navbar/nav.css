@@ -1,0 +1,48 @@
+/* Default (Laptop View) */
+.custom-navbar {
+    padding: 10px 20px;
+    width: 100%;
+    max-width: 1550px; 
+    margin: auto; 
+}
+
+
+/* Hide Offcanvas on Large Screens */
+@media (min-width: 992px) {
+    .navbar-expand-lg .offcanvas {
+        display: none !important;
+    }
+
+    .nav-links {
+        display: flex !important;
+        gap: 15px;
+    }
+    
+}
+
+@media (min-width: 425px) and (max-width:623) {
+    .navbar-collapse {
+        display: none;
+    }
+
+    .offcanvas {
+        display: block !important;
+    }
+
+    .navbar-title {
+        font-size: 1.2rem;
+    }
+
+    .profile-avatar {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    
+}

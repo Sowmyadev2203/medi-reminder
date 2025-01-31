@@ -6,5 +6,66 @@ body {
     margin: 0;
     padding: 0;
   }
-  
+
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .result-container {
+    padding: 10px !important;
+    /* margin-left: 20px; */
+    
+  }
+
+  .result-container h4 {
+    font-size: 22px !important;
+    
+  }
+
+  .result-container .MuiBox-root {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    
+  }
+
+  .result-container img {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 5px;
+  }
+
+  .result-container .MuiTypography-root {
+    font-size: 14px !important;
+    
+  }
+
+  .result-container .MuiButton-root {
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+  }
+
+  .result-container .MuiTextField-root {
+    width: 100% !important;
+  }
+
+  .result-container .MuiFormControl-root {
+    width: 100% !important;
+  }
+
+  .result-container .MuiGrid-root {
+    justify-content: center !important;
+  }
+
+  .result-container .MuiBox-root {
+    width: 500px !important;
+  }
+
+  .result-container .MuiButton-root {
+    width: 100% !important;
+    margin-top: 5px;
+  }
+  .custom-navbar{
+    width: 120%;
+}
+}
+
  

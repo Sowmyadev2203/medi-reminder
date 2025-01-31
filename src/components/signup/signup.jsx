@@ -9,6 +9,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signupMessage, setSignupMessage] = useState(''); 
 
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);  
@@ -18,29 +19,45 @@ const Signup = () => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.");
+      setSignupMessage("Please enter a valid email address.");
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long.");
+      setSignupMessage("Error: Password must be at least 6 characters long.");
       return;
     }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User created:", userCredential.user); 
-      alert('Signup successful!');
-      navigate('/login', { replace: true });
+      setSignupMessage("Signup successful!");
+      navigate('/'); 
     } catch (error) {
-      console.error("Signup Error:", error.message);  
-      alert(error.message);  
+      console.error("Signup Error:", error.message);
+      if (error.code === 'auth/email-already-in-use') {
+        setSignupMessage("This email is already in use. Please use a different email.");
+      } else {
+        setSignupMessage("Error: Something went wrong. Please try again.");
+      }
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center',backgroundColor:"black",padding:"60px",borderRadius:"50px"}}>
+    <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center', padding: "60px", borderRadius: "50px" }}>
       <Typography variant="h4" gutterBottom>Sign Up</Typography>
+
+      {signupMessage && (
+        <Typography 
+          variant="body1" 
+          sx={{
+            marginBottom: 2,
+            color: signupMessage.startsWith('Error') || signupMessage.startsWith('Please') || signupMessage.startsWith('This email') ? 'error.main' : 'success.main'
+          }}
+        >
+          {signupMessage}
+        </Typography>
+      )}
+
       <form onSubmit={handleSubmit}>
         <TextField 
           fullWidth label="Email" margin="normal" 

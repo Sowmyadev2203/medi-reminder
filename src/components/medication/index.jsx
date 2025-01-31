@@ -4,6 +4,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "../medication/style.css"
 import {
   Box,
   Input,
@@ -14,8 +15,8 @@ import {
   Button,
   IconButton,
   Grid,
-  Paper,
   Typography,
+  Paper,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Popup from "../popup/index";
@@ -63,102 +64,120 @@ const Medication = () => {
     const existingMedications = JSON.parse(localStorage.getItem("medications")) || [];
     const updatedMedications = [...existingMedications, ...medications];
     localStorage.setItem("medications", JSON.stringify(updatedMedications));
-    navigate("/result", { state: { medications: updatedMedications } });
+    navigate("/history", { state: { medications: updatedMedications } });
   };
 
   return (
     <>
-      <Typography variant="h4" align="center" gutterBottom style={{fontFamily:"cursive"}} >
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{ fontFamily: "cursive", color: "white", mt: 2 }}
+      >
         Add Medication
       </Typography>
+
       <Grid container justifyContent="center" >
-        <Grid item xs={12} sm={8} md={6}>
-          <Paper elevation={3} sx={{ padding: 3 }}>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <Typography variant="h6" gutterBottom>
-                  Medication Details
-                </Typography>
-                <Box
-                  component="div"
-                  sx={{ "& > :not(style)": { m: 2 } }}
-                  noValidate
-                  autoComplete="off"
+        <Grid item xs={12} sm={10} md={6}>
+         
+            <form onSubmit={handleSubmit}  >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ color: "white", fontFamily: "cursive", textAlign: "center" }}
+              >
+                Medication Details
+              </Typography>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                {medications.map((medication, index) => (
+                  <Box key={index} sx={{ width: { xs: "100%", sm: "80%", md: "70%" } }}  className="formcontainer">
+                    <InputLabel htmlFor={`medicine-name-${index}`} sx={{ color: "white" }}>
+                      Medicine Name
+                    </InputLabel>
+                    <Input
+                      id={`medicine-name-${index}`}
+                      placeholder="Enter Medicine Name"
+                      value={medication.medicineName}
+                      onChange={(e) => handleMedicineNameChange(index, e)}
+                      fullWidth
+                      sx={{ input: { color: "white" } }}
+                    />
+
+                    <InputLabel htmlFor={`dose-strength-${index}`} sx={{ color: "white", mt: 2 }}>
+                      Dose Strength
+                    </InputLabel>
+                    <Input
+                      id={`dose-strength-${index}`}
+                      placeholder="Enter Dose Strength"
+                      value={medication.doseStrength}
+                      onChange={(e) => handleDoseStrengthChange(index, e)}
+                      fullWidth
+                      sx={{ input: { color: "white" } }}
+                    />
+
+                    <FormControl fullWidth sx={{ mt: 2 }}>
+                      <InputLabel id={`select-type-${index}`} sx={{ color: "white" }}>
+                        Type
+                      </InputLabel>
+                      <Select
+                        labelId={`select-type-${index}`}
+                        id={`select-type-${index}`}
+                        value={medication.type}
+                        onChange={(e) => handleTypeChange(index, e)}
+                        sx={{ color: "white" }}
+                        MenuProps={{
+                          PaperProps: { sx: { backgroundColor: "#333", color: "white" } },
+                        }}
+                      >
+                        <MenuItem value="Capsule">Capsule</MenuItem>
+                        <MenuItem value="Insulin">Insulin</MenuItem>
+                        <MenuItem value="Syrup">Syrup</MenuItem>
+                        <MenuItem value="Injection">Injection</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <DateTimePicker
+                      label="Medication Time"
+                      value={medication.medicationTime}
+                      onChange={(newValue) => {
+                        const newMedications = [...medications];
+                        newMedications[index].medicationTime = newValue;
+                        setMedications(newMedications);
+                      }}
+                      sx={{ width: "100%", mt: 2 }}
+                      slotProps={{
+                        textField: {
+                          sx: { input: { color: "white" }, label: { color: "white" } },
+                        },
+                      }}
+                    />
+                  </Box>
+                ))}
+              </LocalizationProvider>
+
+              <Grid container justifyContent="center" sx={{ mt: 2 }}>
+                <IconButton onClick={addMedication}>
+                  <AddCircleIcon sx={{ color: "white", fontSize: "2rem" }} />
+                </IconButton>
+              </Grid>
+
+              <Grid container justifyContent="center" sx={{ mt: 2 }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    width: { xs: "100%", sm: "50%" },
+                  }}
                 >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    {medications.map((medication, index) => (
-                      <div key={index}>
-                        <InputLabel htmlFor={`medicine-name-${index}`}>
-                          Medicine Name
-                        </InputLabel>
-                        <Input
-                          id={`medicine-name-${index}`}
-                          placeholder="Enter a Medicine name"
-                          value={medication.medicineName}
-                          onChange={(e) => handleMedicineNameChange(index, e)}
-                          sx={{ width: "100%" }}
-                        />
-                        <InputLabel htmlFor={`dose-strength-${index}`}>
-                          Dose Strength
-                        </InputLabel>
-                        <Input
-                          id={`dose-strength-${index}`}
-                          placeholder="Enter Dose strength"
-                          value={medication.doseStrength}
-                          onChange={(e) => handleDoseStrengthChange(index, e)}
-                          sx={{ width: "100%" }}
-                        />
-                        <FormControl
-                          variant="standard"
-                          sx={{ m: 2, minWidth: 120, width: "100%" }}
-                        >
-                          <InputLabel id={`select-type-${index}`}>Type</InputLabel>
-                          <Select
-                            labelId={`select-type-${index}`}
-                            id={`select-type-${index}`}
-                            value={medication.type}
-                            onChange={(e) => handleTypeChange(index, e)}
-                            label="Type"
-                          >
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="Capsule">Capsule</MenuItem>
-                            <MenuItem value="Insulin">Insulin</MenuItem>
-                            <MenuItem value="Syrup">Syrup</MenuItem>
-                            <MenuItem value="Injection">Injection</MenuItem>
-                          </Select>
-                        </FormControl>
-
-                        <DateTimePicker
-                          label="Medication Time"
-                          value={medication.medicationTime}
-                          onChange={(newValue) => {
-                            const newMedications = [...medications];
-                            newMedications[index].medicationTime = newValue;
-                            setMedications(newMedications);
-                          }}
-                          sx={{ width: "100%" }}
-                        />
-                      </div>
-                    ))}
-                  </LocalizationProvider>
-
-                  <Grid container justifyContent="center">
-                    <IconButton color="dark" onClick={addMedication}>
-                      <AddCircleIcon />
-                    </IconButton>
-                  </Grid>
-
-                  <Grid container justifyContent="center" sx={{ mt: 2 }}>
-                    <Button type="submit" variant="contained" style={{ backgroundColor: "black" }}>
-                      Submit
-                    </Button>
-                  </Grid>
-                </Box>
-              </div>
+                  Submit
+                </Button>
+              </Grid>
             </form>
-          </Paper>
+         
         </Grid>
       </Grid>
 

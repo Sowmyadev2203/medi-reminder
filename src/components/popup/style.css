@@ -7,7 +7,7 @@
     width: 200px;
     border: 2px solid black;
     border-radius: 100px;
-    margin-left: 300px;
+    margin-left: 130px;
     animation: vibrate 0.3s linear infinite, vibrateColors 2s infinite; /* Apply both animations */
     animation: vibrateColors 1s infinite, vibrate 0.2s linear infinite, scaleUp 0.5s ease-out forwards;
 
@@ -53,4 +53,13 @@
    height: 80px;
    width: 100px;
      
+}
+
+
+
+@media  screen and (min-width:375px) and (max-width: 650px) {
+
+  #div{
+    margin-left: 180px;
+  }
 }

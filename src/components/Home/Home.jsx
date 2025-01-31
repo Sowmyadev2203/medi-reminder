@@ -18,7 +18,7 @@ import track from "../assests/track.jpg";
 import logo from "../assests/logo.png";
 import Checkbox from "@mui/material/Checkbox";
 import { Facebook, Twitter, Instagram } from "lucide-react";
-
+import "../Home/style.css";
 const images = [
   {
     url: background,
@@ -112,20 +112,24 @@ const HomePage = () => {
 
   return (
     <div>
+      {/* firstdiv */}
       <div
         style={{
           marginTop: "5px",
-          marginRight: "50px",
+          marginRight: "30px",
         }}
+        className="maindiv"
       >
         <Box
           sx={{
             flex: 1,
             display: "flex",
+            flexDirection: { xs: "column", md: "row" }, // Column on mobile, row on larger screens
             justifyContent: "center",
             alignItems: "center",
-            marginLeft: "60px",
+            marginLeft: { xs: "20px", md: "60px" }, // Smaller margin on mobile
           }}
+          className="imagebutton"
         >
           <ImageButton
             focusRipple
@@ -155,128 +159,66 @@ const HomePage = () => {
         </Box>
 
         <Box sx={{ flex: 1, marginTop: "30px" }}>
-          <div
-            style={{
-              backgroundColor: "white",
-              height: "100%",
-              width: "96%",
-              marginLeft: "55px",
-              color: "black",
-              display: "flex",
-              flexDirection: "row",
-              gap: "20px",
-              justifyContent: "space-around",
-              padding: "100px",
-              borderRadius: "30px",
-            }}
-          >
-            <h1
-              style={{
-                fontSize: "30px",
-                fontFamily: "cursive",
-                textEmphasis: "Highlight",
-              }}
-            >
-              Welcome To The Medication reminder! <br></br>This Reminder Helps
-              You To take A Right Medicine <br></br>At A Right Time!
-            </h1>
-            <h2>
-              "Stay on top of your health with a medication reminder!<br></br>{" "}
-              Never miss a dose and ensure proper treatment adherence for better
-              health outcomes.<br></br> Perfect for managing chronic conditions,
-              <br></br> it helps maintain consistent schedules and prevents
-              missed or incorrect doses.<br></br> Caregivers can also rely on it
-              for peace of mind. Simplify your routine and take control of your
-              well-being today!"
-            </h2>
-          </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              height: "100%",
-              width: "96%",
-              marginLeft: "55px",
-              borderRadius: "30px",
-            }}
-          >
-            <img src={timer} alt="timer" style={{ borderRadius: "30px" }} />
-          </div>
-
-          <div
-            style={{
-              backgroundColor: "rgb(33, 30, 30)",
-              height: "100%",
-              width: "96%",
-              marginLeft: "55px",
-              borderRadius: "30px",
-              marginTop: "10px",
-              padding: "100px",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <h1
-              style={{
-                color: "rgb(10, 133, 241)",
-                fontFamily: "fantasy",
-                fontPalette: "light",
-                fontSize: "50px",
-              }}
-            >
-              SET A <br></br>
-              <span style={{ color: "whitesmoke" }}>TIMER!!</span>
-            </h1>
-            <div>
-              <h2 style={{ fontFamily: "cursive" }}>
-                Hurry Up! And Click on the button medication to set your
-                medication timings<br></br> It will help you remember the
-                medication you have set
-              </h2>
-              <br></br>
-              <Button
-                variant="outlined"
-                onClick={() => navigate("/medication")}
-              >
-                Medication
-              </Button>
+          {/* second div */}
+          <div className="welcome-container">
+            <div className="welcome-text">
+              <h1>Welcome To The Medication Reminder!</h1>
+              <p>
+                This Reminder Helps You To Take The Right Medicine At The Right
+                Time!
+              </p>
             </div>
-            <img src={img} style={{ height: "175px", borderRadius: "50px" }} />
+            <div className="welcome-description">
+              <h2>
+                "Stay on top of your health with a medication reminder! Never
+                miss a dose and ensure proper treatment adherence for better
+                health outcomes.
+                <br />
+                Perfect for managing chronic conditions, it helps maintain
+                consistent schedules and prevents missed or incorrect doses.
+                <br />
+                Caregivers can also rely on it for peace of mind. Simplify your
+                routine and take control of your well-being today!"
+              </h2>
+            </div>
           </div>
 
-          <div
-            style={{
-              backgroundColor: "rgb(67, 61, 61)",
-              height: "100%",
-              width: "96%",
-              marginLeft: "55px",
-              borderRadius: "30px",
-              marginTop: "10px",
-              display: "flex",
-              flexDirection: "row",
-              gap: "5px",
-              justifyContent: "space-evenly",
-              padding: "50px",
-              textAlign: "center",
-            }}
-          >
-            <h1
-              style={{
-                fontSize: "45px",
-                fontFamily: "fantasy",
-                color: "rgb(10, 133, 241)",
-                marginTop: "200px",
-              }}
-            >
-              AB<span style={{ color: "whitesmoke" }}>OUT</span>
-            </h1>
-            <Card
-              sx={{
-                maxWidth: 345,
-                borderRadius: "30px",
-                boxShadow: "0 3px 10px  rgba(245, 245, 245, 0.7)",
-              }}
-            >
+          <div className="image-container">
+            <img src={timer} alt="Medication Timer" className="timer-image" />
+          </div>
+        </Box>
+
+        {/* third div */}
+
+        <div className="setdiv">
+          {/* Heading */}
+          <h1 className="set-title">
+            SET A <br />
+            <span className="set-span">TIMER!!</span>
+          </h1>
+
+          {/* Content Section */}
+          <div className="set-content">
+            <h2>
+              Hurry Up! Click the button below to set your medication timings.
+            </h2>
+            <p>It will help you remember your medication schedule.</p>
+            <Button variant="outlined" onClick={() => navigate("/medication")}>
+              Medication
+            </Button>
+          </div>
+
+          {/* Timer Image */}
+          <img src={img} alt="capsule" className="set-image" />
+        </div>
+
+        {/* four div */}
+        <div className="aboutdiv">
+          <h1 className="about-title">
+            AB<span style={{ color: "whitesmoke" }}>OUT</span>
+          </h1>
+          <div className="card-container">
+            <Card className="about-card">
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -285,195 +227,121 @@ const HomePage = () => {
                   alt="phone"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5">
                     Medication
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Setting a reminder helps you to remind the medication at a
-                    right time!
+                  <Typography variant="body2" color="text.secondary">
+                    Setting a reminder helps you to take medication at the right
+                    time!
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
-            <Card
-              sx={{
-                maxWidth: 345,
-                borderRadius: "30px",
-                boxShadow: "0 3px 10px rgba(245, 245, 245, 0.7)",
-              }}
-            >
+
+            <Card className="about-card">
               <CardActionArea>
                 <CardMedia
                   component="img"
                   height="140"
                   image={track}
-                  alt="image"
+                  alt="history"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5">
                     History
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    It also helps you to track the medication and shows the
-                    history about you medication details
+                  <Typography variant="body2" color="text.secondary">
+                    Track your medication history and stay updated with your
+                    details.
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
-            <Card
-              sx={{
-                maxWidth: 345,
-                borderRadius: "30px",
-                boxShadow: "0 3px 10px rgba(245, 245, 245, 0.7)",
-              }}
-            >
+
+            <Card className="about-card">
               <CardActionArea>
                 <CardMedia
                   component="img"
                   height="140"
                   image={phonereminder}
-                  alt="phone"
+                  alt="reminder"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5">
                     Reminder
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    This Medi-Reminder alerts you to take a medicine in time!
+                  <Typography variant="body2" color="text.secondary">
+                    This Medi-Reminder alerts you to take medicine on time!
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
           </div>
+        </div>
 
-          {/* last div */}
-          <div
-            style={{
-              backgroundColor: "rgb(41, 39, 39)",
-              padding: "55px",
-              height: "100%",
-              width: "96%",
-              marginLeft: "55px",
-              borderRadius: "30px",
-              marginTop: "10px",
-              fontFamily: "cursive",
-              display: "flex",
-              gap: "20px",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ padding: "30px", flex: 1 }}>
-              <img
-                src={logo}
-                alt="Logo"
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  marginRight: "10px",
-                  borderRadius: "30px",
-                }}
-              />
-              <h1
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: "bold",
-                  color: "white",
-                }}
-              >
-                Medi-Reminder
-              </h1>
-              <br></br>
+        {/* fifth div */}
+        <div className="footer-container">
+      {/* Left Section - Logo & Contact */}
+      <div className="footer-section">
+        <div className="logo-container">
+          <img src={logo} alt="Logo" className="footer-logo" />
+          <h1 className="footer-title">Medi-Reminder</h1>
+        </div>
+        <h1 className="footer-heading">CONTACT</h1>
+        <p>+91 123-456-789</p>
+        <p>medireminder@gmail.com</p>
+        <p>© 2025 by Medication Reminder. Powered and secured</p>
+      </div>
 
-              <h1 style={{ fontSize: "30px", color: "white" }}>CONTACT</h1>
-              <br></br>
-              <p>+91 123-456-789</p>
-              <p>medireminder@gmail.com</p>
-              <p>
-                © 2025 by Medication Reminder. <br></br>Powered and secured
-              </p>
-            </div>
+      {/* Middle Section - Features */}
+      <div className="footer-section">
+        <p>Medication</p>
+        <p>Reminders</p>
+        <p>Track</p>
+        <p>History</p>
+        <Button variant="outlined" className="footer-button">
+          Get Started!
+        </Button>
+      </div>
 
-            <div style={{ flex: 1, textAlign: "center" }}>
-              <p>Medication</p>
-              <p>Reminders</p>
-              <p>Track</p>
-              <p>History</p>
-              <Button variant="outlined" style={{ marginTop: "10px" }}>
-                Get Started !
-              </Button>
-            </div>
+      {/* Quick Links */}
+      <div className="footer-section">
+        <h1 className="footer-heading">Quick Links</h1>
+        <a href="#" className="footer-link">Terms & Conditions</a>
+        <a href="#" className="footer-link">Privacy Policy</a>
+      </div>
 
-            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-              <h1>Quick Links</h1>
-              <a
-                href=""
-                target="_blank"
-                rel=""
-                style={{ textDecoration: "underline" }}
-              >
-                Terms @ conditions
-              </a>
+      {/* Subscription Section */}
+      <div className="footer-section">
+        <h1 className="footer-heading">Follow</h1>
+        <h2>Enter your email</h2>
+        <TextField
+          id="outlined-basic"
+          label="Email"
+          variant="outlined"
+          className="footer-input"
+        />
+        <Button variant="outlined" className="footer-button">
+          submit
+        </Button>
+      </div>
 
-              <a
-                href=""
-                target="_blank"
-                rel=""
-                style={{ textDecoration: "underline" }}
-              >
-                privacy policy
-              </a>
-            </div>
-
-            <div
-              style={{ display: "flex", gap: "20px", flexDirection: "column" }}
-            >
-              <h1>Follow</h1>
-              <h2>Enter your email</h2>
-              <TextField
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                sx={{
-                  input: { color: "whitesmoke" },
-                  label: { color: "whitesmoke" },
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "whitesmoke" },
-                    "&:hover fieldset": { borderColor: "lightgray" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
-              />
-              <Button
-                variant="outlined"
-                style={{
-                  marginTop: "10px",
-                  color: "whitesmoke",
-                  outlineColor: "whitesmoke",
-                }}
-              >
-                Get Started !
-              </Button>
-            </div>
-
-            <div style={{ padding: "60px" }}>
-              <div className="p-16 flex flex-col gap-4">
-                <div className="flex items-center gap-2">
-                  <Facebook className="w-6 h-6 text-blue-600" />
-                  <h1>Facebook</h1>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Twitter className="w-6 h-6 text-blue-400" />
-                  <h1>Twitter</h1>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Instagram className="w-6 h-6 text-pink-500" />
-                  <h1>Instagram</h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Box>
+      {/* Social Media Icons */}
+      <div className="footer-section social-icons">
+        <div className="social-item">
+          <Facebook className="social-icon facebook" />
+          <h1>Facebook</h1>
+        </div>
+        <div className="social-item">
+          <Twitter className="social-icon twitter" />
+          <h1>Twitter</h1>
+        </div>
+        <div className="social-item">
+          <Instagram className="social-icon instagram" />
+          <h1>Instagram</h1>
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   );

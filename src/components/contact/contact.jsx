@@ -9,6 +9,7 @@ import {
   CardContent,
 } from "@mui/material";
 import { Mail, Phone, Send } from "lucide-react";
+import "../contact/style.css"
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -35,111 +36,123 @@ function ContactPage() {
   };
 
   return (
-    <div style={{fontSize:"30px",fontFamily:"cursive",textAlign:"center",marginTop:"30px"}}>Any Issues ? try to contact us!!!
-    <Box
-      sx={{
-        padding: 4,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        
-      }}
-    >  
-      <Card sx={{ maxWidth: 600, width: "100%", borderRadius: 2, boxShadow: 3 }}>
-        <CardContent>
-          <Typography variant="h4" align="center" gutterBottom>
-            Contact Us
-          </Typography>
-
-          <Typography
-            variant="body1"
-            align="center"
-            color="textSecondary"
-            gutterBottom
-          >
-            Have questions about the Medication Reminder App? Get in touch!
-          </Typography>
-
-          {isSubmitted && (
-            <Typography
-              variant="body1"
-              color="success.main"
-              align="center"
-              gutterBottom
-            >
-              Thank you for reaching out! We'll get back to you shortly.
+    <div style={{ fontSize: "30px", fontFamily: "cursive", textAlign: "center", marginTop: "30px", color: "white" }}>
+      Any Issues? Try to contact us!!!
+      <Box
+        sx={{
+          padding: 4,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+        className="contactbox"
+      >
+        <Card sx={{ maxWidth: 600, width: "100%", borderRadius: 2, boxShadow: 3, backgroundColor: "rgb(32, 31, 31)", color: "whitesmoke" }}>
+          <CardContent>
+            <Typography variant="h4" align="center" gutterBottom>
+              Contact Us
             </Typography>
-          )}
 
-          <Box component="form" onSubmit={handleSubmit} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  multiline
-                  rows={4}
-                  required
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Send />}
-                  fullWidth
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Box sx={{ marginTop: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Contact Information
+            <Typography variant="body1" align="center" color="white" gutterBottom>
+              Have questions about the Medication Reminder App? Get in touch!
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
-              <Mail style={{ marginRight: 8 }} />
-              <Typography variant="body1">sowmya@gmail.com</Typography>
+
+            {isSubmitted && (
+              <Typography variant="body1" color="success.main" align="center" gutterBottom>
+                Thank you for reaching out! We'll get back to you shortly.
+              </Typography>
+            )}
+
+            <Box component="form" onSubmit={handleSubmit} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    variant="outlined"
+                    sx={{
+                      input: { color: "white" }, 
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { borderColor: "white" }, 
+                        "&:hover fieldset": { borderColor: "lightgray" }, 
+                        "&.Mui-focused fieldset": { borderColor: "white" }, 
+                      },
+                    }}
+                    slotProps={{ inputLabel: { sx: { color: "white" } } }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    variant="outlined"
+                    sx={{
+                      input: { color: "white" }, 
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { borderColor: "white" }, 
+                        "&:hover fieldset": { borderColor: "lightgray" }, 
+                        "&.Mui-focused fieldset": { borderColor: "white" }, 
+                      },
+                    }}
+                    slotProps={{ inputLabel: { sx: { color: "white" } } }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    multiline
+                    rows={4}
+                    required
+                    variant="outlined"
+                    sx={{
+                      input: { color: "white" }, 
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { borderColor: "white" }, 
+                        "&:hover fieldset": { borderColor: "lightgray" }, 
+                        "&.Mui-focused fieldset": { borderColor: "white" }, 
+                      },
+                    }}
+                    slotProps={{ inputLabel: { sx: { color: "white" } } }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" color="white" startIcon={<Send />} fullWidth>
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Phone style={{ marginRight: 8 }} />
-              <Typography variant="body1">+91 7995928853 </Typography>
+
+            <Box sx={{ marginTop: 4 }}>
+              <Typography variant="h6" gutterBottom>
+                Contact Information
+              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
+                <Mail style={{ marginRight: 8 }} />
+                <Typography variant="body1">sowmya@gmail.com</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Phone style={{ marginRight: 8 }} />
+                <Typography variant="body1">+91 7995928853 </Typography>
+              </Box>
             </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </Box>
+          </CardContent>
+        </Card>
+      </Box>
     </div>
   );
 }
