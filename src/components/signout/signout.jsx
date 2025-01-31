@@ -9,7 +9,8 @@ const Signout = () => {
   const navigate = useNavigate();
 
   const handleSignOut = async (e) => {
-    e.preventdefault()
+    e.preventdefault();
+    
     try {
       await signOut(auth);
       navigate('/', { replace: true });  

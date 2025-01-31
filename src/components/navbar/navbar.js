@@ -32,9 +32,7 @@ const NavigationBar = () => {
                   <NavDropdown.Item href="/signout">signout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <div className="profile-container">
-                <Avatar src={profile} alt="Profile" className="profile-avatar" />
-              </div>
+             
             </Offcanvas.Body>
           </Navbar.Offcanvas>
 
@@ -48,7 +46,6 @@ const NavigationBar = () => {
               <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
               <NavDropdown.Item href="/signout">signout</NavDropdown.Item>
             </NavDropdown>
-            <Avatar src={profile} alt="Profile" className="profile-avatar" />
           </Nav>
         </Container>
       </Navbar>

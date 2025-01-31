@@ -5,7 +5,7 @@ import { app } from '../src/components/fbConfig';
 import NavigationBar from './components/navbar/navbar';
 import Login from './components/login/Login';
 import Signup from './components/signup/signup';
-import Home from './components/Home/Home';
+import HomePage from './components/Home/Home';
 import Signout from './components/signout/signout';
 import Medication from './components/medication';
 import Profile from './components/profile';
@@ -31,7 +31,7 @@ const App = () => {
       {user && <NavigationBar />}
       
       <Routes>
-        <Route path="/home" element={user ? <Home /> : <Navigate to="/login" />} />
+        {/* <Route path="/home" element={user ? <HomePage /> : <Navigate to="/login" />} /> */}
         <Route path="/" element={!user ? <Login /> : <Navigate to="/home" />} />
         <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
         <Route path="/signout" element={user ? <Signout /> : <Navigate to="/" />} />
@@ -40,6 +40,8 @@ const App = () => {
         <Route path="/profile" element={<Profile/>} />
         <Route path="/history" element={<ResultPage />}/>
         <Route path="/medication" element={<ResultPage />}/>
+        <Route path="/home" element={<HomePage/>}/>
+
       </Routes>
     </BrowserRouter>
   );
