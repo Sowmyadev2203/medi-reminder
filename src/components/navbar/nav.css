@@ -1,48 +1,48 @@
-/* Default (Laptop View) */
-.custom-navbar {
-    padding: 10px 20px;
+@media (max-width: 991px) {
+  .custom-navbar {
+    padding: 8px 15px; /* Less padding on smaller screens */
+  }
+
+  .navbar-title {
+    font-size: 16px; /* Smaller font size for mobile */
+  }
+
+  .nav-link {
+    padding: 10px; /* Increase spacing for touch targets */
+    font-size: 16px;
+  }
+
+  .offcanvas-body {
+    padding: 20px;
+  }
+
+  .offcanvas-body .nav-link {
+    padding: 12px 15px; /* Better spacing inside offcanvas */
+    font-size: 18px;
+  }
+
+  .nav-dropdown {
     width: 100%;
-    max-width: 1550px; 
-    margin: auto; 
+    text-align: center;
+  }
 }
 
+@media (max-width: 576px) {
+  .navbar-logo {
+    width: 35px;
+    height: 35px;
+  }
 
-/* Hide Offcanvas on Large Screens */
-@media (min-width: 992px) {
-    .navbar-expand-lg .offcanvas {
-        display: none !important;
-    }
+  .navbar-title {
+    font-size: 15px;
+  }
 
-    .nav-links {
-        display: flex !important;
-        gap: 15px;
-    }
-    
-}
+  .nav-link {
+    font-size: 14px;
+  }
 
-@media (min-width: 425px) and (max-width:623) {
-    .navbar-collapse {
-        display: none;
-    }
-
-    .offcanvas {
-        display: block !important;
-    }
-
-    .navbar-title {
-        font-size: 1.2rem;
-    }
-
-    .profile-avatar {
-        width: 40px !important;
-        height: 40px !important;
-    }
-
-    .profile-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-    
-    
+  .offcanvas-body .nav-link {
+    font-size: 16px;
+    padding: 10px;
+  }
 }

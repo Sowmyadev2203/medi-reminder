@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../fbConfig';
 import { Container, TextField, Button, Typography } from '@mui/material';
+import Login from '../login/Login';
 
 const Signup = () => {
   const auth = getAuth(app);
@@ -29,9 +30,9 @@ const Signup = () => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       setSignupMessage("Signup successful!");
-      navigate('/'); 
+      navigate("/", { replace: true }); 
     } catch (error) {
       console.error("Signup Error:", error.message);
       if (error.code === 'auth/email-already-in-use') {
@@ -88,6 +89,17 @@ const Signup = () => {
         <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
           Sign Up
         </Button>
+        
+        {/* Login Prompt */}
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Already have an account? 
+          <Button 
+            sx={{ textTransform: "none", fontSize: "14px" }} 
+            onClick={() => navigate("/")} 
+          >
+            Log in
+          </Button>
+        </Typography>
       </form>
     </Container>
   );

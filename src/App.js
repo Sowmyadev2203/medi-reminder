@@ -34,13 +34,14 @@ const App = () => {
         {/* <Route path="/home" element={user ? <HomePage /> : <Navigate to="/login" />} /> */}
         <Route path="/" element={!user ? <Login /> : <Navigate to="/home" />} />
         <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
-        <Route path="/signout" element={user ? <Signout /> : <Navigate to="/" />} />
+        {/* <Route path="/signout" element={user ? <Signout /> : <Navigate to="/" />} /> */}
         <Route path="/medication" element={<Medication/>} />
         <Route path="/contact" element={<h2><ContactPage/></h2>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/history" element={<ResultPage />}/>
         <Route path="/medication" element={<ResultPage />}/>
         <Route path="/home" element={<HomePage/>}/>
+        {/* <Route path="/signout" element={<Signout/>}/> */}
 
       </Routes>
     </BrowserRouter>

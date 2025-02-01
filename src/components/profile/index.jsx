@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
-import Button from '@mui/material/Button';
 import { getAuth,signOut } from 'firebase/auth';
 import {app} from "../fbConfig";
-import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const auth = getAuth(app);
-  const navigate = useNavigate()
+  
 
-  const handleClick = () => {
-    signOut(auth) 
-      .then(() => {
-        console.log("User signed out");
-        // navigate('/Login');
-      })
-      .catch((error) => {
-        console.error("Sign out error", error);
-      });
-  };
+ 
 
 
   const userDetailsString = localStorage.getItem('userDetails');
@@ -160,7 +149,7 @@ export default function Profile() {
                 </td>
               </tr>
               <tr>
-                <td className='tds'>Change Password:</td>
+                <td className='tds'>Password:</td>
                 <td>
                   {isEditing ? (
                     <input
@@ -226,7 +215,6 @@ export default function Profile() {
               <div style={{ fontWeight: 'bolder', fontSize: '12px' }}>Edit</div>
               <br></br>
 
-              <Button variant="contained" sx={{ backgroundColor: 'black' }} onClick={handleClick}>Sign Out</Button>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ const Signout = () => {
 
   const handleSignOut = async (e) => {
     e.preventdefault();
-    
+
     try {
       await signOut(auth);
       navigate('/', { replace: true });  
@@ -19,11 +19,14 @@ const Signout = () => {
     }
   };
 
-  return (
-    <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center' }}>
-      <Typography variant="h4" gutterBottom>Sign Out</Typography>
-      <Button variant="contained" color="secondary" onClick={handleSignOut}>Sign Out</Button>
-    </Container>
+  return (<>
+    {/*  <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center' }}>
+       <Typography variant="h4" gutterBottom>Sign Out</Typography>
+       </Container> */}
+       {/* <Button variant="contained" color="secondary" onClick={handleSignOut}>Sign Out</Button> */}
+  
+  
+    </>
   );
 };
 

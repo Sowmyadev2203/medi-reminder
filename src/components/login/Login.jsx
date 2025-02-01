@@ -12,7 +12,11 @@ const Login = () => {
   const [loginMessage, setLoginMessage] = useState(''); 
 
   const handleSignupRedirect = () => {
-    navigate('/signup');
+    navigate('/signup'); 
+  };
+
+  const handleGuestLogin = () => {
+    navigate('/home'); 
   };
 
   const isValidEmail = (email) => {
@@ -21,7 +25,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
 
     if (!isValidEmail(email)) {
       setLoginMessage("Error: Please enter a valid email address.");
@@ -37,18 +40,25 @@ const Login = () => {
       setLoginMessage('Login successful!'); 
       navigate('/home'); 
     } catch (error) {
-      setLoginMessage(`Error:Invalid Details/Not Found Your account please Sign up!`); 
+      setLoginMessage(`Error: Invalid Details. No account found. Please sign up!`); 
     }
   };
 
   return (
     <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center', color: "whitesmoke", padding: "60px", borderRadius: "30px" }}>
       <Typography variant="h4" gutterBottom>Login</Typography>
-      
-      {loginMessage && <Typography variant="body1" color="danger.main" sx={{
+
+      {loginMessage && (
+        <Typography 
+          variant="body1" 
+          sx={{
             marginBottom: 2,
             color: loginMessage.startsWith('Error') || loginMessage.startsWith('Incorrect') || loginMessage.startsWith('No account') ? 'error.main' : 'success.main'
-          }}>{loginMessage}</Typography>}
+          }}
+        >
+          {loginMessage}
+        </Typography>
+      )}
 
       <form onSubmit={handleSubmit}>
         <TextField
@@ -86,8 +96,25 @@ const Login = () => {
             }
           }}
         />
-        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>Login</Button>
-        <Button fullWidth variant="contained" color="secondary" sx={{ mt: 2 }} onClick={handleSignupRedirect}>Sign Up</Button>
+        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+          Login
+        </Button>
+
+       
+        <Button fullWidth variant="contained" color="secondary" sx={{ mt: 2 }} onClick={handleGuestLogin}>
+          Login as Guest
+        </Button>
+
+        
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Not a member? 
+          <Button 
+            sx={{ textTransform: "none", fontSize: "14px" }} 
+            onClick={handleSignupRedirect} 
+          >
+            Sign Up Now!
+          </Button>
+        </Typography>
       </form>
     </Container>
   );

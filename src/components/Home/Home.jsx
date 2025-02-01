@@ -294,7 +294,7 @@ const HomePage = () => {
       </div>
 
       {/* Middle Section - Features */}
-      <div className="footer-section">
+      {/* <div className="footer-section">
         <p>Medication</p>
         <p>Reminders</p>
         <p>Track</p>
@@ -302,7 +302,7 @@ const HomePage = () => {
         <Button variant="outlined" className="footer-button">
           Get Started!
         </Button>
-      </div>
+      </div> */}
 
       {/* Quick Links */}
       <div className="footer-section">
