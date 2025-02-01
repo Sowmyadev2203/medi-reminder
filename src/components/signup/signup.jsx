@@ -90,7 +90,7 @@ const Signup = () => {
           Sign Up
         </Button>
         
-        {/* Login Prompt */}
+        
         <Typography variant="body2" sx={{ mt: 2 }}>
           Already have an account? 
           <Button 
