@@ -71,7 +71,7 @@ function ResultPage() {
     const { name, value } = event.target;
     setEditedMedication((prev) => ({
       ...prev,
-      [name]: name === "medicationTime" ? dayjs(value) : value, // Ensure time format
+      [name]: name === "medicationTime" ? dayjs(value) : value, 
     }));
   };
 
@@ -80,7 +80,7 @@ function ResultPage() {
       const updatedMedications = [...medicationList];
       updatedMedications[editIndex] = {
         ...editedMedication,
-        medicationTime: dayjs(editedMedication.medicationTime), // Ensure correct date format
+        medicationTime: dayjs(editedMedication.medicationTime), 
       };
 
       setMedicationList(updatedMedications);
@@ -89,8 +89,8 @@ function ResultPage() {
   };
 
   const handleCancel = () => {
-    setEditedMedication(originalMedication); // Restore original data
-    setEditIndex(null); // Exit edit mode
+    setEditedMedication(originalMedication); 
+    setEditIndex(null); 
   };
 
   const handleDelete = (index) => {
