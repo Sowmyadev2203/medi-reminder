@@ -280,40 +280,32 @@ const HomePage = () => {
         </div>
 
         {/* fifth div */}
+
         <div className="footer-container">
+          
       {/* Left Section - Logo & Contact */}
       <div className="footer-section">
-        <div className="logo-container">
+        <span className="logo-container">
           <img src={logo} alt="Logo" className="footer-logo" />
-          <h1 className="footer-title">Medi-Reminder</h1>
-        </div>
-        <h1 className="footer-heading">CONTACT</h1>
+          <h2 className="footer-title">Medi-Reminder</h2>
+        </span>
+        <h2 className="footer-heading">Contact</h2>
         <p>+91 123-456-789</p>
         <p>medireminder@gmail.com</p>
         <p>© 2025 by Medication Reminder. Powered and secured</p>
       </div>
 
-      {/* Middle Section - Features */}
-      {/* <div className="footer-section">
-        <p>Medication</p>
-        <p>Reminders</p>
-        <p>Track</p>
-        <p>History</p>
-        <Button variant="outlined" className="footer-button">
-          Get Started!
-        </Button>
-      </div> */}
 
       {/* Quick Links */}
       <div className="footer-section">
-        <h1 className="footer-heading">Quick Links</h1>
+        <h2 className="footer-heading">Quick Links</h2>
         <a href="#" className="footer-link">Terms & Conditions</a>
         <a href="#" className="footer-link">Privacy Policy</a>
       </div>
 
       {/* Subscription Section */}
       <div className="footer-section">
-        <h1 className="footer-heading">Follow</h1>
+        <h2 className="footer-heading">Follow</h2>
         <h2>Enter your email</h2>
         <TextField
           id="outlined-basic"

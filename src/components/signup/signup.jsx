@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { app } from '../fbConfig';
-import { Container, TextField, Button, Typography } from '@mui/material';
-import Login from '../login/Login';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { app } from "../fbConfig";
+import { Container, TextField, Button, Typography } from "@mui/material";
+import "../signup/signup.css";
 
 const Signup = () => {
   const auth = getAuth(app);
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [signupMessage, setSignupMessage] = useState(''); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signupMessage, setSignupMessage] = useState("");
+  const [name, setName] = useState("");
 
-  const isValidEmail = (email) => {
-    return /\S+@\S+\.\S+/.test(email);  
+  const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
+  const handleInputFocus = (e) => {
+    e.target.classList.add("input-active");
+  };
+
+  const handleInputBlur = (e) => {
+    e.target.classList.remove("input-active");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      setSignupMessage("Please enter a valid email address.");
+      setSignupMessage("Error:Please enter a valid email address.");
       return;
     }
 
@@ -31,12 +38,17 @@ const Signup = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      const userDetails = {
+        name,
+        email,
+        password,
+      };
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
       setSignupMessage("Signup successful!");
-      navigate("/", { replace: true }); 
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error("Signup Error:", error.message);
-      if (error.code === 'auth/email-already-in-use') {
-        setSignupMessage("This email is already in use. Please use a different email.");
+      if (error.code === "auth/email-already-in-use") {
+        setSignupMessage("Error:This email is already in use. Please use a different email.");
       } else {
         setSignupMessage("Error: Something went wrong. Please try again.");
       }
@@ -44,63 +56,94 @@ const Signup = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 5, textAlign: 'center', padding: "60px", borderRadius: "50px" }}>
-      <Typography variant="h4" gutterBottom>Sign Up</Typography>
+    <Container maxWidth="xs" className="signup-container">
+      <div className="signup-box">
+        <Typography variant="h4" gutterBottom>Sign Up</Typography>
 
-      {signupMessage && (
-        <Typography 
-          variant="body1" 
-          sx={{
-            marginBottom: 2,
-            color: signupMessage.startsWith('Error') || signupMessage.startsWith('Please') || signupMessage.startsWith('This email') ? 'error.main' : 'success.main'
-          }}
-        >
-          {signupMessage}
-        </Typography>
-      )}
-
-      <form onSubmit={handleSubmit}>
-        <TextField 
-          fullWidth label="Email" margin="normal" 
-          value={email} onChange={(e) => setEmail(e.target.value)} required
-          InputProps={{ style: { color: "white" } }}  
-          InputLabelProps={{ style: { color: "white" } }} 
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': { borderColor: 'white' }, 
-              '&:hover fieldset': { borderColor: 'white' }, 
-              '&.Mui-focused fieldset': { borderColor: 'white' } 
-            }
-          }} 
-        />
-        <TextField 
-          fullWidth label="Password" type="password" margin="normal" 
-          value={password} onChange={(e) => setPassword(e.target.value)} required
-          InputProps={{ style: { color: "white" } }}  
-          InputLabelProps={{ style: { color: "white" } }} 
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': { borderColor: 'white' }, 
-              '&:hover fieldset': { borderColor: 'white' }, 
-              '&.Mui-focused fieldset': { borderColor: 'white' } 
-            }
-          }} 
-        />
-        <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
-          Sign Up
-        </Button>
-        
-        
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          Already have an account? 
-          <Button 
-            sx={{ textTransform: "none", fontSize: "14px" }} 
-            onClick={() => navigate("/")} 
+        {signupMessage && (
+          <Typography
+            variant="body1"
+            sx={{
+              marginBottom: 2,
+              color: signupMessage.startsWith("Error") ? "error.main" : "success.main",
+            }}
           >
-            Log in
+            {signupMessage}
+          </Typography>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Name"
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            required
+            InputProps={{ style: { color: "white" } }}
+            InputLabelProps={{ style: { color: "white" } }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'white' }, 
+                '&:hover fieldset': { borderColor: 'white' }, 
+                '&.Mui-focused fieldset': { borderColor: 'white' } 
+              }
+            }} 
+          />
+          <TextField
+            fullWidth
+            label="Email"
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            required
+            InputProps={{ style: { color: "white" } }}
+            InputLabelProps={{ style: { color: "white" } }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'white' }, 
+                '&:hover fieldset': { borderColor: 'white' }, 
+                '&.Mui-focused fieldset': { borderColor: 'white' } 
+              }
+            }} 
+          />
+
+          <TextField
+            fullWidth
+            label="Password"
+            type="password"
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            required
+            InputProps={{ style: { color: "white" } }}
+            InputLabelProps={{ style: { color: "white" } }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'white' }, 
+                '&:hover fieldset': { borderColor: 'white' }, 
+                '&.Mui-focused fieldset': { borderColor: 'white' } 
+              }
+            }} 
+          />
+          <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }} className="signup-button">
+            Sign Up
           </Button>
-        </Typography>
-      </form>
+
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            Already have an account?{" "}
+            <Button sx={{ textTransform: "none", fontSize: "14px" }} onClick={() => navigate("/")}>
+              Log in
+            </Button>
+          </Typography>
+        </form>
+      </div>
     </Container>
   );
 };

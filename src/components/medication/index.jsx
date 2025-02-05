@@ -4,7 +4,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../medication/style.css"
+import "../medication/style.css";
 import {
   Box,
   Input,
@@ -19,7 +19,7 @@ import {
   Paper,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Popup from "../popup/index";
+import medicationImage from "../assests/application.png"; // Make sure to add your image here
 
 const Medication = () => {
   const [medications, setMedications] = useState([
@@ -30,8 +30,6 @@ const Medication = () => {
       medicationTime: dayjs(),
     },
   ]);
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [currentMedication, setCurrentMedication] = useState(null);
   const navigate = useNavigate();
 
   const handleTypeChange = (index, event) => {
@@ -69,19 +67,20 @@ const Medication = () => {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{ fontFamily: "cursive", color: "white", mt: 2 }}
-      >
-        Add Medication
-      </Typography>
+      
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ fontFamily: "cursive", color: "white", mt: 2 }}
+        >
+          Add Medication 
+        </Typography>
 
-      <Grid container justifyContent="center" >
-        <Grid item xs={12} sm={10} md={6}>
-         
-            <form onSubmit={handleSubmit}  >
+        <Grid container justifyContent="center" spacing={2}  style={{marginTop:"40px"}}>
+          {/* Form Section */}
+          <Grid item xs={12} sm={10} md={6} className="container">
+            <form onSubmit={handleSubmit} >
               <Typography
                 variant="h6"
                 gutterBottom
@@ -90,9 +89,15 @@ const Medication = () => {
                 Medication Details
               </Typography>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {medications.map((medication, index) => (
-                  <Box key={index} sx={{ width: { xs: "100%", sm: "80%", md: "70%" } }}  className="formcontainer">
+                  <Box
+                    key={index}
+                    sx={{
+                      width: { xs: "100%", sm: "80%", md: "70%" },
+                    }}
+                    className="formcontainer"
+                  >
                     <InputLabel htmlFor={`medicine-name-${index}`} sx={{ color: "white" }}>
                       Medicine Name
                     </InputLabel>
@@ -177,16 +182,30 @@ const Medication = () => {
                 </Button>
               </Grid>
             </form>
-         
-        </Grid>
-      </Grid>
+          </Grid>
 
-      <Popup
-        show={popupVisible}
-        onHide={() => setPopupVisible(false)}
-        medicationName={currentMedication?.medicineName || ""}
-        medicationTime={currentMedication?.medicationTime?.format("DD MMM YYYY, hh:mm A") || ""}
-      />
+          {/* Image Section */}
+          <Grid item xs={12} sm={10} md={4}>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={medicationImage} 
+                alt="Medication"
+                style={{
+                  marginLeft:"40px",
+                  width:"80%"
+                }}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+     
     </>
   );
 };

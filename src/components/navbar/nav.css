@@ -1,14 +1,18 @@
+
+
+/* Styles for devices up to 991px (Tablets and smaller devices) */
 @media (max-width: 991px) {
   .custom-navbar {
-    padding: 8px 15px; /* Less padding on smaller screens */
+    padding: 8px 15px;
+    width: 110%;
   }
 
   .navbar-title {
-    font-size: 16px; /* Smaller font size for mobile */
+    font-size: 16px;
   }
 
   .nav-link {
-    padding: 10px; /* Increase spacing for touch targets */
+    padding: 10px;
     font-size: 16px;
   }
 
@@ -17,7 +21,7 @@
   }
 
   .offcanvas-body .nav-link {
-    padding: 12px 15px; /* Better spacing inside offcanvas */
+    padding: 12px 15px;
     font-size: 18px;
   }
 
@@ -25,24 +29,115 @@
     width: 100%;
     text-align: center;
   }
+  .container-fluid{
+    width: 70%;
+  }
+  .footer-section{
+    display: flex;
+    gap: 30px;
+    flex-direction:column;
+  }
 }
 
-@media (max-width: 576px) {
+/* Styles for devices up to 768px (Smaller tablets and large mobile phones) */
+@media (max-width: 768px) {
+  .custom-navbar {
+    width: 110%;
+  }
   .navbar-logo {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
   }
 
   .navbar-title {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .nav-link {
-    font-size: 14px;
+    font-size: 15px;
+  }
+
+  .offcanvas-body {
+    padding: 15px;
   }
 
   .offcanvas-body .nav-link {
     font-size: 16px;
     padding: 10px;
+  }
+
+  .nav-dropdown {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .custom-navbar {
+    width: 110%;
+  }
+  .navbar-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .navbar-title {
+    font-size: 13px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .offcanvas-body {
+    padding: 10px;
+  }
+
+  .offcanvas-body .nav-link {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  .nav-dropdown {
+    font-size: 13px;
+  }
+
+  .offcanvas-body .nav-dropdown .dropdown-item {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .custom-navbar {
+    width: 70%;
+  }
+  .navbar-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar-title {
+    font-size: 12px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .offcanvas-body .nav-link {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .nav-dropdown {
+    font-size: 12px;
+  }
+
+  .offcanvas-body .nav-dropdown .dropdown-item {
+    font-size: 13px;
+    padding: 8px;
   }
 }

@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { getAuth,signOut } from 'firebase/auth';
-import {app} from "../fbConfig";
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { getAuth } from 'firebase/auth';
+import { app } from "../fbConfig";
+import "../profile/style.css"; 
+import profileimg from "../assests/profileimg.jpg";
 
 export default function Profile() {
   const auth = getAuth(app);
-  
-
- 
-
-
   const userDetailsString = localStorage.getItem('userDetails');
   const userDetails = userDetailsString ? JSON.parse(userDetailsString) : null;
-
-  
   const initialUserDetails = userDetails || {};
 
   const [name, setName] = useState(initialUserDetails?.name || '');
@@ -22,19 +18,23 @@ export default function Profile() {
   const [age, setAge] = useState(initialUserDetails?.age || '');
   const [blood, setBloodgroup] = useState(initialUserDetails?.blood || '');
   const [userPassword, setUserPassword] = useState(initialUserDetails?.password || '');
+  const [showPassword, setShowPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+
+  useEffect(() => {
+    if (!name || !email || !phoneNo || !age || !blood) {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+    }
+  }, [name, email, phoneNo, age, blood]);
 
   const handleSave = () => {
-    const updatedDetails = {
-      name,
-      email,
-      age,
-      phoneNo,
-      blood,
-      password: userPassword,
-    };
+    const updatedDetails = { name, email, age, phoneNo, blood, password: userPassword };
     localStorage.setItem('userDetails', JSON.stringify(updatedDetails));
     setIsEditing(false);
+    setShowWarning(false);
   };
 
   const handleCancel = () => {
@@ -48,136 +48,157 @@ export default function Profile() {
   };
 
   return (
-    <>
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            alignItems: 'left',
-            boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-            padding: '20px',
-            margin: '80px 20px 30px 20px',
-            width: '30rem',
-            borderRadius: '10px',
-          }}
-        >
+    <div className="card-container">
+      <div className="card">
+       
+        <div className="card-header">
+          <img src={profileimg} alt="Profile" className="profile-image" />
+        </div>
+
+       
+        <div className="card-body">
+          {showWarning && (
+            <div className="warning">⚠️ Your profile is incomplete! Please update it.</div>
+          )}
+
           <table>
             <thead>
               <tr>
-                <th colSpan={2} style={{ textAlign: 'center', fontSize: '20px', paddingBottom: '10px' }}>
-                  User Details
-                </th>
+                <th colSpan={2} className="table-header">User Details</th>
               </tr>
             </thead>
-            <tbody className='user-details'>
+            <tbody className="user-details">
+              
               <tr>
-                <td className='tds'>Name:</td>
                 <td>
+                  {isEditing ? 'Name' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
                     <input
-                      type='text'
+                      type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      style={inputStyle}
+                      className="input-style"
                     />
                   ) : (
-                    name
+                    <span>{name || "Not Provided"}</span>
                   )}
                 </td>
               </tr>
+
+              {/* Email Field */}
               <tr>
-                <td className='tds'>Email:</td>
                 <td>
+                  {isEditing ? 'Email' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
                     <input
-                      type='text'
+                      type="text"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      style={inputStyle}
+                      className="input-style"
                     />
                   ) : (
-                    email
+                    <span>{email || "Not Provided"}</span>
                   )}
                 </td>
               </tr>
+
+              {/* Phone No Field */}
               <tr>
-                <td className='tds'>Phone No:</td>
                 <td>
+                  {isEditing ? 'Phone No' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
                     <input
-                      type='text'
+                      type="text"
                       value={phoneNo}
                       onChange={(e) => setPhoneNo(e.target.value)}
-                      style={inputStyle}
+                      className="input-style"
                     />
                   ) : (
-                    phoneNo
+                    <span>{phoneNo || "Not Provided"}</span>
                   )}
                 </td>
               </tr>
+
+              {/* Age Field */}
               <tr>
-                <td className='tds'>Age:</td>
                 <td>
+                  {isEditing ? 'Age' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
                     <input
-                      type='text'
+                      type="text"
                       value={age}
                       onChange={(e) => setAge(e.target.value)}
-                      style={inputStyle}
+                      className="input-style"
                     />
                   ) : (
-                    age
+                    <span>{age || "Not Provided"}</span>
                   )}
                 </td>
               </tr>
+
+              {/* Blood Group Field */}
               <tr>
-                <td className='tds'>Blood Group:</td>
                 <td>
+                  {isEditing ? 'Blood Group' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
                     <input
-                      type='text'
+                      type="text"
                       value={blood}
                       onChange={(e) => setBloodgroup(e.target.value)}
-                      style={inputStyle}
+                      className="input-style"
                     />
                   ) : (
-                    blood
+                    <span>{blood || "Not Provided"}</span>
                   )}
                 </td>
               </tr>
+
+              {/* Password Field */}
               <tr>
-                <td className='tds'>Password:</td>
                 <td>
+                  {isEditing ? 'Password' : ''}
+                </td>
+                <td style={{ textAlign: isEditing ? 'left' : 'center' }}>
                   {isEditing ? (
-                    <input
-                      type='password'
-                      value={userPassword}
-                      onChange={(e) => setUserPassword(e.target.value)}
-                      style={inputStyle}
-                    />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={userPassword}
+                        onChange={(e) => setUserPassword(e.target.value)}
+                        className="input-style"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="icon-button"
+                      >
+                        {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                      </button>
+                    </div>
                   ) : (
-                    userPassword
+                    <span>********</span>
                   )}
                 </td>
               </tr>
+
+              {/* Save/Cancel buttons when editing */}
               {isEditing && (
                 <tr>
                   <td colSpan={2} style={{ textAlign: 'center', paddingTop: '10px' }}>
-                    <button
-                      style={saveButtonStyle}
-                      type='button'
-                      onClick={handleSave}
-                    >
+                    <button className="save-button" type="button" onClick={handleSave}>
                       Save
                     </button>
-                    <button
-                      type='button'
-                      onClick={handleCancel}
-                      style={cancelButtonStyle}
-                    >
+                    <button type="button" onClick={handleCancel} className="cancel-button">
                       Cancel
                     </button>
                   </td>
@@ -185,79 +206,16 @@ export default function Profile() {
               )}
             </tbody>
           </table>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-              padding: '10px',
-              marginTop: '10px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <HiOutlinePencilAlt
-                style={{
-                  cursor: 'pointer',
-                  color: '#2874f0',
-                  width: '30px',
-                  height: '30px',
-                }}
-                onClick={() => setIsEditing(true)}
-              />
-              <div style={{ fontWeight: 'bolder', fontSize: '12px' }}>Edit</div>
-              <br></br>
 
-            </div>
+          <div className="edit-icon-container">
+            <HiOutlinePencilAlt
+              className="edit-icon"
+              onClick={() => setIsEditing(true)}
+            />
+            <div className="edit-text">Edit</div>
           </div>
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 }
-
-
-const inputStyle = {
-  backgroundColor: '#f3f4f6', 
-  color: '#333', 
-  padding: '8px 12px',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  width: '100%', 
-  boxSizing: 'border-box', 
-};
-
-
-const saveButtonStyle = {
-  backgroundColor: 'black', 
-  color: 'white', 
-  padding: '10px 20px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  fontWeight: 'bold',
-  transition: 'background-color 0.3s',
-  marginRight: '10px',
-};
-
-
-
-const cancelButtonStyle = {
-  backgroundColor: 'black', 
-  color: 'white', 
-  padding: '10px 20px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  fontWeight: 'bold',
-  transition: 'background-color 0.3s',
-};
-

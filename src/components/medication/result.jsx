@@ -1,24 +1,38 @@
 import React, { useState, useEffect } from "react";
-import "../medication/result.css";
-import { DateTimePicker } from "@mui/x-date-pickers";
 import { useLocation } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { IconButton } from "@mui/material";
+
 import {
   Typography,
   Box,
   Button,
-  Grid,
-  InputLabel,
-  FormControl,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  TextField,
   Select,
   MenuItem,
-  TextField,
+  FormControl,
+  InputLabel,
+  Grid,
+  Card,
+  CardContent,
 } from "@mui/material";
 import dayjs from "dayjs";
-import Popup from "../popup/index";
 import CapsuleLogo from "../assests/capsule.png";
 import SyrupLogo from "../assests/syrup.png";
 import InjectionLogo from "../assests/injection.png";
 import InsulinLogo from "../assests/insuline.png";
+import NoData from "../assests/nohistory.png";
+import "../medication/result.css";
 
 function ResultPage() {
   const location = useLocation();
@@ -29,73 +43,58 @@ function ResultPage() {
     return storedMedications
       ? JSON.parse(storedMedications).map((med) => ({
           ...med,
-          medicationTime: dayjs(med.medicationTime), 
+          medicationTime: dayjs(med.medicationTime),
         }))
       : stateMedications
       ? stateMedications.map((med) => ({
           ...med,
-          medicationTime: dayjs(med.medicationTime), 
+          medicationTime: dayjs(med.medicationTime),
         }))
       : [];
   });
 
   const [editIndex, setEditIndex] = useState(null);
   const [editedMedication, setEditedMedication] = useState({});
-  const [modalShow, setModalShow] = useState(false);
-  const [selectedMedication, setSelectedMedication] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedType, setSelectedType] = useState(null); 
+  const [originalMedication, setOriginalMedication] = useState({});
 
   useEffect(() => {
     localStorage.setItem("medications", JSON.stringify(medicationList));
   }, [medicationList]);
 
-  useEffect(() => {
-    const timers = [];
-
-    medicationList.forEach((medication) => {
-      const timeDifference = medication.medicationTime.diff(
-        dayjs(),
-        "millisecond"
-      );
-
-      if (timeDifference > 0) {
-        const timer = setTimeout(() => {
-          setSelectedMedication(medication.medicineName);
-          setSelectedTime(
-            medication.medicationTime.format("DD MMM YYYY, hh:mm A")
-          );
-          setSelectedType(medication.type); 
-          setModalShow(true);
-        }, timeDifference);
-        timers.push(timer);
-      }
-    });
-
-    return () => {
-      timers.forEach((timer) => clearTimeout(timer));
-    };
-  }, [medicationList]);
-
   const handleEdit = (index) => {
-    const medicationToEdit = medicationList[index];
     setEditIndex(index);
-    setEditedMedication({
-      ...medicationToEdit,
-      medicationTime: dayjs(medicationToEdit.medicationTime), 
-    });
+    setOriginalMedication({ ...medicationList[index] });
+    setEditedMedication({ ...medicationList[index] });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditedMedication((prev) => ({
+      ...prev,
+      [name]: name === "medicationTime" ? dayjs(value) : value, // Ensure time format
+    }));
   };
 
   const handleSave = () => {
-    const updatedMedications = [...medicationList];
-    updatedMedications[editIndex] = editedMedication;
-    setMedicationList(updatedMedications);
-    setEditIndex(null);
+    if (editIndex !== null) {
+      const updatedMedications = [...medicationList];
+      updatedMedications[editIndex] = {
+        ...editedMedication,
+        medicationTime: dayjs(editedMedication.medicationTime), // Ensure correct date format
+      };
+
+      setMedicationList(updatedMedications);
+      setEditIndex(null); 
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedMedication(originalMedication); // Restore original data
+    setEditIndex(null); // Exit edit mode
   };
 
   const handleDelete = (index) => {
-    const updatedMedications = medicationList.filter((_, i) => i !== index);
-    setMedicationList(updatedMedications);
+    setMedicationList(medicationList.filter((_, i) => i !== index));
   };
 
   const getMedicationLogo = (type) => {
@@ -113,171 +112,203 @@ function ResultPage() {
     }
   };
 
-  if (!medicationList.length) {
-    return (
-      <Typography variant="h6" align="center" >
-        No medications data found.
-      </Typography>
-    );
-  }
-
   return (
-    <Box sx={{ padding: 3 }} className="result-container" >
-      <Typography variant="h4" align="center" gutterBottom style={{fontFamily:"cursive"}}>
-        Submitted Medication Details
-      </Typography>
-
-      {medicationList.map((medication, index) => (
-        <Box
-          key={index}
-          sx={{
-            marginBottom: 2,
-            backgroundColor: "aliceblue",
-            padding: 2,
-            borderRadius: "8px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            backdropFilter: "blur(10px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            color: "black",
-            fontFamily:"cursive"
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ padding: 2 }}>
+      {medicationList.length === 0 ? (
+        <Box display="flex" justifyContent="center" flexDirection="column">
+          <Typography variant="h6" textAlign="center" gutterBottom>
+            No History Found!
+          </Typography>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
             <img
-              src={getMedicationLogo(medication.type)}
-              alt={medication.type}
-              style={{ width: 40, height: 40, marginRight: 10 }}
+              src={NoData}
+              alt="No Data Available"
+              style={{ height: "auto", marginTop: "-100px" }}
             />
-            <Typography variant="h6" style={{fontFamily:"cursive"}}>Medicine {index + 1}</Typography>
-          </Box>
+          </div>
+        </Box>
+      ) : (
+        <>
+          <Typography variant="h4" align="center" gutterBottom>
+            Submitted Medication Details
+          </Typography>
 
+          {/* Desktop View - Table */}
+          <TableContainer component={Paper} sx={{ borderRadius: "20px", display: { xs: "none", md: "block" } }}>
+            <Table>
+              <TableHead sx={{ backgroundColor: "blueviolet" }}>
+                <TableRow>
+                  <TableCell sx={{ color: "whitesmoke" }}>Logo</TableCell>
+                  <TableCell sx={{ color: "whitesmoke" }}>Medication Name</TableCell>
+                  <TableCell sx={{ color: "whitesmoke" }}>Type</TableCell>
+                  <TableCell sx={{ color: "whitesmoke" }}>Time</TableCell>
+                  <TableCell sx={{ color: "whitesmoke" }}>Dose Strength</TableCell>
+                  <TableCell sx={{ color: "whitesmoke" }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {medicationList.map((medication, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <img src={getMedicationLogo(medication.type)} alt={medication.type} style={{ width: 40, height: 40 }} />
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField name="medicineName" value={editedMedication.medicineName} onChange={handleInputChange} />
+                      ) : (
+                        medication.medicineName
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <FormControl>
+                          <InputLabel>Type</InputLabel>
+                          <Select name="type" value={editedMedication.type} onChange={handleInputChange}>
+                            <MenuItem value="Capsule">Capsule</MenuItem>
+                            <MenuItem value="Syrup">Syrup</MenuItem>
+                            <MenuItem value="Injection">Injection</MenuItem>
+                            <MenuItem value="Insulin">Insulin</MenuItem>
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        medication.type
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField
+                          name="medicationTime"
+                          type="datetime-local"
+                          value={editedMedication.medicationTime.format("YYYY-MM-DDTHH:mm")}
+                          onChange={handleInputChange}
+                        />
+                      ) : (
+                        medication.medicationTime.format("DD MMM YYYY, hh:mm A")
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <TextField name="doseStrength" value={editedMedication.doseStrength} onChange={handleInputChange} />
+                      ) : (
+                        medication.doseStrength
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editIndex === index ? (
+                        <>
+                        <Button onClick={handleSave} sx={{ color: "blue", mr: 1 , border:"1px solid blue" }}>Save</Button>
+                        <Button onClick={handleCancel} sx={{ color: "red",border:"1px solid red" }}>Cancel</Button>
+                      </>
+                      ) : (
+                        <>
+                          <Button onClick={() => handleEdit(index)}  style={{color:"blue" , border:"1px blue solid"}}>
+                            Edit
+                          </Button>
+                          <Button onClick={() => handleDelete(index)} style={{color:"red" , border:"1px red solid" , marginLeft:"5px"}}>
+                           Delete 
+                          </Button>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+
+          {/* Mobile View  */}
+          <Grid container spacing={2} className="medication-container" sx={{ display: { xs: "block", md: "none" } }}>
+  {medicationList.map((medication, index) => (
+    <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+      <Card className="medication-card">
+        <CardContent className="medication-content">
+          {/* Medication Logo */}
+          <img src={getMedicationLogo(medication.type)} alt={medication.type} className="medication-logo" />
+
+          {/* Medication Details */}
           {editIndex === index ? (
-            <Box >
-              <FormControl
-                variant="outlined"
+            <div className="medication-details">
+              <TextField
+                name="medicineName"
+                value={editedMedication.medicineName}
+                onChange={handleInputChange}
+                label="Medication Name"
                 fullWidth
-                sx={{ marginBottom: 2}}
-              >
-                <InputLabel id={`select-type-${index}`} >Type</InputLabel>
-                <Select
-                  labelId={`select-type-${index}`}
-                  id={`select-type-edit-${index}`}
-                  value={editedMedication.type || ""}
-                  onChange={(e) =>
-                    setEditedMedication({
-                      ...editedMedication,
-                      type: e.target.value,
-                    })
-                  }
-                  label="Type"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
+                margin="dense"
+              />
+              <FormControl fullWidth margin="dense">
+                <InputLabel>Type</InputLabel>
+                <Select name="type" value={editedMedication.type} onChange={handleInputChange}>
                   <MenuItem value="Capsule">Capsule</MenuItem>
-                  <MenuItem value="Insulin">Insulin</MenuItem>
                   <MenuItem value="Syrup">Syrup</MenuItem>
                   <MenuItem value="Injection">Injection</MenuItem>
+                  <MenuItem value="Insulin">Insulin</MenuItem>
                 </Select>
               </FormControl>
-
               <TextField
-                label="Edit Dose Strength"
-                variant="outlined"
-                size="small"
+                name="medicationTime"
+                type="datetime-local"
+                value={editedMedication.medicationTime.format("YYYY-MM-DDTHH:mm")}
+                onChange={handleInputChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                name="doseStrength"
                 value={editedMedication.doseStrength}
-                onChange={(e) =>
-                  setEditedMedication({
-                    ...editedMedication,
-                    doseStrength: e.target.value,
-                  })
-                }
-                sx={{ width: "100%", marginBottom: 2 }}
+                onChange={handleInputChange}
+                label="Dose Strength"
+                fullWidth
+                margin="dense"
               />
-
-              <TextField
-                label="Edit Medication Name"
-                variant="outlined"
-                size="small"
-                value={editedMedication.medicineName}
-                onChange={(e) =>
-                  setEditedMedication({
-                    ...editedMedication,
-                    medicineName: e.target.value,
-                  })
-                }
-                sx={{ width: "100%", marginBottom: 2 }}
-              />
-
-           
-              <Grid container spacing={2} justifyContent="flex-start">
-                <Grid item>
-                  <Button variant="outlined" color="black" onClick={handleSave}>
-                    Save
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="black"
-                    onClick={() => setEditIndex(null)}
-                  >
-                    Cancel
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
+            </div>
           ) : (
-            <Box sx={{ marginBottom: 1 }}>
-              <Typography>
-                <strong>Medication Name:</strong> {medication.medicineName}
-              </Typography>
-              <Typography>
-                <strong>Type:</strong> {medication.type}
-              </Typography>
-              <Typography>
-                <strong>Time:</strong>{" "}
-                {medication.medicationTime.format("DD MMM YYYY, hh:mm A")}
-              </Typography>
-
-              <Typography>
-                <strong>Dose Strength:</strong> {medication.doseStrength}
-              </Typography>
-
-              <Grid container spacing={2} justifyContent="flex-start">
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="dark"
-                    onClick={() => handleEdit(index)}
-                  >
-                    Edit
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="dark"
-                    onClick={() => handleDelete(index)}
-                  >
-                    Delete
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
+            <div className="medication-details">
+              <Typography variant="body2" className="medication-name">{medication.medicineName}</Typography>
+              <Typography variant="body2">Type: {medication.type}</Typography>
+              <Typography variant="body2">Time: {medication.medicationTime.format("DD MMM YYYY, hh:mm A")}</Typography>
+              <Typography variant="body2">Dose: {medication.doseStrength}</Typography>
+            </div>
           )}
-        </Box>
-      ))}
 
-      <Popup
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        medicationName={selectedMedication} 
-        medicationTime={selectedTime} 
-        medicationType={selectedType} 
-      />
+          {/* Action Buttons */}
+          <div className="action-buttons">
+            {editIndex === index ? (
+              <>
+                <IconButton onClick={handleSave} color="success">
+                <SaveIcon />
+                </IconButton>
+                <IconButton onClick={handleCancel} color="error">
+                <CancelIcon/>
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <IconButton onClick={() => handleEdit(index)} color="primary">
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDelete(index)} color="error">
+                  <DeleteIcon />
+                </IconButton>
+              </>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+
+        </>
+      )}
     </Box>
   );
 }

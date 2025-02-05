@@ -101,7 +101,7 @@
 
 .set-content {
   max-width: 50%;
-  font-family: cursive;
+  /* font-family: cursive; */
   font-size: 20px;
 }
 
@@ -114,7 +114,7 @@
   width: 90%;
   margin: 20px auto;
   border-radius: 30px;
-  padding: 60px;
+  padding: 50px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -124,7 +124,10 @@
 }
 
 .footer-section {
-  flex: 1;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   min-width: 250px;
   text-align: center;
 }
@@ -136,6 +139,14 @@
   gap: 10px;
 }
 
+.social-icons{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 50px;
+}
 .footer-logo {
   width: 50px;
   height: 50px;
@@ -148,8 +159,8 @@
 }
 
 .footer-heading {
-  font-size: 30px;
-  margin-top: 20px;
+  font-size: 20px;
+  
 }
 
 .footer-link {
@@ -164,7 +175,7 @@
   border-color: whitesmoke;
 }
 
-.footer-input {
+/* .footer-input {
   width: 90%;
   margin-top: 10px;
 }
@@ -175,9 +186,8 @@
 
 .footer-input label {
   color: whitesmoke;
-}
+} */
 .footer-container{
- padding: 80px;
  margin-top: -20px;
 }
 
@@ -211,6 +221,29 @@
 .instagram {
   color: #e4405f;
 }
+.footer-input .MuiOutlinedInput-root {
+  color: white;
+}
+
+.footer-input .MuiOutlinedInput-root .MuiInputBase-input {
+  color: white;
+}
+
+.footer-input .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+}
+
+.footer-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: lightgray;
+}
+
+.footer-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+}
+
+.footer-input .MuiInputLabel-root {
+  color: white;
+}
 
 
 /* 📱 Mobile View */
@@ -219,9 +252,9 @@
     font-size: 35px;
   }
   .aboutdiv{
-    width:110%;
+    width:100%;
     padding: 30px;
-    margin-left:40px;
+    margin-left:20px;
   }
   
   .card-container {
@@ -234,7 +267,7 @@
     flex-direction: column;
     padding: 40px;
     text-align: center;
-    margin-left: 50px;
+    margin-left: 30px;
   }
 
   .welcome-text,
@@ -249,13 +282,13 @@
     
   }
   .image-container{
-    margin-left: 50px;
+    margin-left: 30px;
   }
   .setdiv {
     flex-direction: column;
     padding: 40px;
     text-align: center;
-    margin-left: 50px;
+    margin-left: 30px;
   }
 
   .set-title {
@@ -275,9 +308,9 @@
     flex-direction: column;
     align-items: center;
     padding: 50px;
-    width: 110%;
+    width: 100%;
     gap: 20px;
-    margin-left: 40px;
+    margin-left: 10px;
   }
 
   .footer-section {
